@@ -77,8 +77,13 @@ class SibTreeNode extends TreeNode {
    *  this node is the root.
    */
   public TreeNode parent() throws InvalidNodeException {
-    // REPLACE THE FOLLOWING LINE WITH YOUR SOLUTION TO PART I.
-    return null;
+    if(valid == false){
+      throw new InvalidNodeException();
+    }
+    if(parent == null){
+      return new SibTreeNode();
+    }
+    return parent;
   }
 
   /**
@@ -132,7 +137,29 @@ class SibTreeNode extends TreeNode {
    *  Throws an InvalidNodeException if "this" node is invalid.
    */
   public void insertChild(Object item, int c) throws InvalidNodeException {
-    // FILL IN YOUR SOLUTION TO PART II HERE.
+    if(c < 1) c = 1;
+    if(valid == false) throw new InvalidNodeException();
+    SibTreeNode tmp = new SibTreeNode(myTree, item);
+    if(c == 1){
+      tmp.nextSibling = firstChild;
+      tmp.parent = this;
+      this.firstChild = tmp;
+      (myTree.size)++;
+      return;
+    }
+
+    c--;
+    SibTreeNode brother = firstChild, current = brother.nextSibling;
+    while(current != null && c != 1){
+      brother = current;
+      current = current.nextSibling;
+      c--;
+    }
+    brother.nextSibling = tmp;
+    tmp.nextSibling = current;
+    tmp.parent = this;
+    (myTree.size)++;
+
   }
 
   /**
@@ -143,6 +170,31 @@ class SibTreeNode extends TreeNode {
    */
   public void removeLeaf() throws InvalidNodeException {
     // FILL IN YOUR SOLUTION TO PART III HERE.
+    if(valid == false) throw new InvalidNodeException();
+    if(firstChild != null)
+      return;
+    valid = false;
+    if(myTree.root == this){
+      myTree.root = null;
+      myTree.size--;
+      return;
+    }
+    SibTreeNode brother = parent.firstChild;
+    SibTreeNode tmp = brother.nextSibling;
+    if(brother == this){
+      parent.firstChild = parent.firstChild.nextSibling;
+      (myTree.size)--;
+      return;
+    }
+    while(tmp != null){
+      if(tmp == this){
+        brother.nextSibling = tmp.nextSibling;
+        break;
+      }
+      brother = tmp;
+      tmp = tmp.nextSibling;
+    }
+    (myTree.size)--;
   }
 
 }

@@ -158,8 +158,11 @@ public class SibTree extends Tree {
     r31 = null;
     r32 = null;
     try {
+      // System.out.println("11111111");
       r.insertChild(new Integer(13), 1000);
+      // System.out.println("22222222");
       r.insertChild(new Integer(12), 2);
+      // System.out.println("33333333");
       r2 = r.child(2);
       r3 = r.child(3);
       if (((Integer) r2.item()).intValue() != 12) {
