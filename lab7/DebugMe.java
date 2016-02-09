@@ -12,7 +12,8 @@ class DebugMe {
   public static void main(String[] args) {
 
     int N = 3;
-    ListNode geomSeries = createGeomSeries(1/2, N);
+    double x  = 1.0 / 2;
+    ListNode geomSeries = createGeomSeries(x, N);
     double sum = listSum(geomSeries);
 
     System.out.println("for N = " + N + ",\n");
@@ -40,8 +41,7 @@ class DebugMe {
       newTerm.next = null;
     } else {
       newTerm.next = createGeomSeries(r, N - 1);
-      newTerm.item = new Double(((Double) newTerm.next.item).doubleValue() *
-				r);
+      newTerm.item = new Double(((Double) newTerm.next.item) * r);
     }
 
     return newTerm;
