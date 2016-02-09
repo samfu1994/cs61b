@@ -131,7 +131,24 @@ public class BinaryTree implements Dictionary {
 
   private BinaryTreeNode findHelper(Comparable key, BinaryTreeNode node) {
     // Replace the following line with your solution.
-    return null;
+    if(key.compareTo(node.entry.key()) == 0)
+      return node;
+   if (key.compareTo(node.entry.key()) < 0) {
+      if (node.leftChild == null) {
+          return null;
+      } 
+      else {
+        return findHelper(key, node.leftChild);
+      }
+    } 
+    else {
+      if (node.rightChild == null) {
+        return null;
+      } 
+      else {
+        return findHelper(key, node.rightChild);
+      }
+    }
   }
 
   /** 
@@ -145,9 +162,60 @@ public class BinaryTree implements Dictionary {
    *  @return an Entry referencing the key and an associated value, or null if
    *          no entry contains the specified key.
    **/
+  public void findEnd(BinaryTreeNode currentNode){
+    while(currentNode.rightChild != null){
+      currentNode.entry = currentNode.rightChild.entry;
+      currentNode = currentNode.rightChild;
+    }
+    currentNode.parent.rightChild = null;
+  }
   public Entry remove(Object key) {
     // Replace the following line with your solution.
-    return null;
+    BinaryTreeNode node = findHelper((Comparable) key, root);
+    
+    if(node == null){
+      return null;
+    }
+    size--;
+    Entry res = node.entry;
+    if(node.parent == null){
+      if(node.leftChild != null)
+        root = node.leftChild;
+      else if(node.rightChild != null)
+        root = node.rightChild;
+      else
+        root = null;
+    }
+    else if(node.parent.leftChild == node){
+      if(node.leftChild != null && node.rightChild != null){
+        findEnd(node);
+      }
+      else if(node.leftChild != null){
+        node.parent.leftChild =  node.leftChild;
+      }
+      else if(node.rightChild != null){
+        node.parent.leftChild = node.rightChild;
+      }
+      else{
+        node.parent.leftChild = null;
+      }
+    }
+    else if(node.parent.rightChild == node){
+      if(node.leftChild != null && node.rightChild != null){
+        findEnd(node);
+      }
+      else if(node.leftChild != null){
+        node.parent.rightChild =  node.leftChild;
+      }
+      else if(node.rightChild != null){
+        node.parent.rightChild = node.rightChild;
+      }
+      else{
+        node.parent.rightChild = null;
+      }
+    }
+    
+    return res;
   }
 
   /**
