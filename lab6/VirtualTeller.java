@@ -57,7 +57,7 @@ public class VirtualTeller {
    */
   public void deposit(int acct, int amount) throws BadAccountException, BadTransactionException {
     AccountData account = findAccount(acct);
-    if(amont == 0)
+    if(amount == 0)
       throw new BadTransactionException(amount);
     if (account == null) { 
       System.out.println("Error:  Couldn't find account number `" +

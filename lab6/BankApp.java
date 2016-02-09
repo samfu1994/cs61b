@@ -21,17 +21,17 @@ public class BankApp {
     
       while (!command.equals("quit")) {
         try{
-        	if (command.equals("open")) {
-        	  bankApp.open();
-        	} else if (command.equals("deposit")) {
-        	  bankApp.doDeposit();
-        	} else if (command.equals("withdraw")) {
-        	  bankApp.doWithdraw();
-        	} else if (command.equals("inquire")) {
-        	  bankApp.doInquire();
-        	} else {
-        	  System.err.println("Invalid command: " + command);
-        	  usage();
+          if (command.equals("open")) {
+            bankApp.open();
+          } else if (command.equals("deposit")) {
+            bankApp.doDeposit();
+          } else if (command.equals("withdraw")) {
+            bankApp.doWithdraw();
+          } else if (command.equals("inquire")) {
+            bankApp.doInquire();
+          } else {
+            System.err.println("Invalid command: " + command);
+            usage();
           }
               command = bankApp.readLine("--> ");
         }
@@ -39,6 +39,9 @@ public class BankApp {
             System.err.println(e);
           }
           catch(BadAccountException e){
+            System.err.println(e);
+          }
+          catch(BadTransactionException e){
             System.err.println(e);
           }
       }
@@ -72,7 +75,7 @@ public class BankApp {
   *  deposit transaction on that account. 
   *  @exception IOException if there are problems reading user input.
   */
-  private void doDeposit() throws IOException, BadAccountException {
+  private void doDeposit() throws IOException, BadAccountException,BadTransactionException {
     // Get account number.
     int acctNumber = readInt("Enter account number: ");
     int amount = readInt("Enter amount to deposit: ");
@@ -87,7 +90,7 @@ public class BankApp {
    *  to perform a withdrawal transaction from that account.
    *  @exception IOException if there are problems reading user input.
    */
-  private void doWithdraw() throws IOException, BadAccountException {
+  private void doWithdraw() throws IOException, BadAccountException, BadTransactionException {
     // Get account number.
     int acctNumber = readInt("Enter account number: ");
     int amount = readInt("Enter amount to withdraw: ");
